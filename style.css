@@ -1,0 +1,152 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.main-container {
+    width: 100vw;
+    background-color: rgb(199, 195, 220);
+}
+
+.button-cart {
+    background-color: rgb(41, 41, 67);
+    color: white;
+    border-radius: 5px;
+    border: none;
+    width: 100px;
+    height: 50px;
+    font-family: sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.button-cart:hover {
+    cursor: pointer;
+    background-color: rgb(71, 71, 107);
+}
+
+.header {
+    background-color: rgb(142, 139, 139);
+    height: 70px;
+    width: 100vw;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    color: aliceblue;
+    font-family: sans-serif;
+}
+
+.menu {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 50px;
+}
+
+.body-store {
+    position: relative;
+    width: 100vw;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    align-content: baseline;
+}
+
+.card {
+    background-color: rgb(255, 255, 255);
+    height: 500px;
+    width: 300px;
+    border-radius: 10px;
+    margin: 15px;
+    padding: 30px;
+    font-family: sans-serif;
+}
+
+.card-top {
+    display: flex;
+    justify-content: center;
+}
+
+.card-top {
+    height: 60%;
+    width: 100%;
+}
+
+.card-text-content {
+    height: 35%;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-image {
+    width: 70%;
+}
+
+.cart-store {
+    position: absolute;
+    z-index: 10;
+    right: 30px;
+    top: 60px;
+    background-color: rgb(84, 83, 126);
+    border-radius: 5px;
+    padding: 20px;
+    visibility: hidden;
+}
+
+.header-cart {
+    display: flex;
+    justify-content: center;
+}
+
+.header-cart p {
+    margin: 10px 10px 10px 0px;
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 25px;
+}
+
+.header-cart img {
+    margin: 10px 0px 10px 0px;
+}
+
+.buy-btn {
+    color: white;
+    border-radius: 5px;
+    border: none;
+    height: 30px;
+    width: 50px;
+    background-color: rgb(46, 46, 81);
+    cursor: pointer;
+}
+
+.row {
+    border: 1px solid black;
+    background-color: aliceblue;
+    color: black;
+}
+
+.id,
+.title,
+.number,
+.price {
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.button-less {
+    background-color: rgb(48, 38, 70);
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.hidden {
+    visibility: visible
+}
