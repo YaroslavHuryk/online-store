@@ -68,17 +68,21 @@ function loadGoods(objects) {
 }
 
 function handleClick(element) {
+  // check if element exsist then counter of this element in table are going to increase or create a new row
   let rows = Array.from(document.querySelectorAll(".row"));
   if (rows.length == 0) {
     createRow(element);
+    countTotal();
   } else {
     for (let i = 0; i < rows.length; i++) {
       let td = rows[i].getElementsByTagName("td");
       if (element.id == td[0].textContent) {
         td[2].textContent = ++element.counter;
+        countTotal();
         break;
       } else if (element.id != td[0].textContent && i == rows.length - 1) {
         createRow(element);
+        countTotal();
       }
     }
   }
@@ -104,7 +108,7 @@ function createRow(dataRowInTable) {
   td1.textContent = dataRowInTable.id;
   td2.textContent = dataRowInTable.title;
   td3.textContent = ++dataRowInTable.counter;
-  td4.textContent = `$${dataRowInTable.price}`;
+  td4.textContent = `${dataRowInTable.price}$`;
   buttonLess.addEventListener("click", makeLess.bind(null, dataRowInTable));
   tdLess.appendChild(buttonLess);
   tr.appendChild(td1);
@@ -116,7 +120,6 @@ function createRow(dataRowInTable) {
 }
 
 function createTable() {
-  const cart = document.querySelector(".cart-store");
   const table = document.createElement("table");
   table.className = "cart-table";
   const tbody = document.createElement("tbody");
@@ -131,7 +134,7 @@ function makeLess(dataRowInTable) {
 
   for (let index = 0; index < rows.length; index++) {
     const tdn = rows[index].getElementsByTagName("td");
-    if (tdn[2].textContent == 1) {
+    if (tdn[2].textContent == 1 && tdn[0].textContent == dataRowInTable.id) {
       table.deleteRow(index);
       --dataRowInTable.counter;
       break;
@@ -140,4 +143,17 @@ function makeLess(dataRowInTable) {
       break;
     }
   }
+  countTotal();
+}
+
+function countTotal() {
+  const rows = Array.from(document.querySelectorAll(".row"));
+  let totalPrice = 0;
+  for (let i = 0; i < rows.length; i++) {
+    const element = rows[i].getElementsByTagName("td");
+    let onePrice = parseFloat(element[3].textContent);
+    totalPrice = totalPrice + onePrice * parseFloat(element[2].textContent);
+  }
+  const totalValue = cart.querySelector(".total-price span");
+  totalValue.textContent = `${totalPrice.toFixed(2)}$`;
 }
