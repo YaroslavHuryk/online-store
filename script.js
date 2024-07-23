@@ -9,7 +9,6 @@ buttonCart.addEventListener("click", () => {
 fetch("https://fakestoreapi.com/products")
   .then((res) => res.json())
   .then((json) => {
-    console.log(json);
     loadGoods(json);
   });
 
@@ -21,11 +20,7 @@ function loadGoods(objects) {
     loadData(objects[i]);
 
     if (!objects[i].counter) {
-      console.log(`counter doesn't exists ${objects[i].counter}`);
       objects[i].counter = 0;
-    } else {
-      console.log(`Counter exists after upadate in object ${objects[i].id}`);
-      console.log(`and the counter equals ${objects[i].counter}`);
     }
 
     let title = document.createElement("h3");
@@ -68,7 +63,6 @@ function loadGoods(objects) {
 }
 
 function handleClick(dataRowInTable) {
-  console.log(`counter handle start = ${dataRowInTable.counter}`);
   // check if element exsist then counter of this element in table are going to increase or create a new row
   let rows = Array.from(document.querySelectorAll(".row"));
   if (rows.length == 0) {
@@ -80,7 +74,6 @@ function handleClick(dataRowInTable) {
       let td = rows[i].getElementsByTagName("td");
       if (dataRowInTable.id == td[0].textContent) {
         td[2].textContent = ++dataRowInTable.counter;
-        console.log(`counter hаndle ++ = ${dataRowInTable.counter}`);
         countTotal(dataRowInTable);
         saveData(dataRowInTable);
         break;
@@ -116,7 +109,6 @@ function createRow(dataRowInTable) {
   td1.textContent = dataRowInTable.id;
   td2.textContent = dataRowInTable.title;
   td3.textContent = ++dataRowInTable.counter;
-  console.log(`counter create row = ${dataRowInTable.counter}`);
   td4.textContent = `${dataRowInTable.price}$`;
   buttonLess.addEventListener("click", () => {
     makeLess(dataRowInTable);
@@ -140,7 +132,6 @@ function createTable() {
 }
 
 function makeLess(dataRowInTable) {
-  console.log(`counter less = ${dataRowInTable.counter}`);
   const table = document.querySelector(".cart-table");
   const rows = Array.from(document.querySelectorAll(".row"));
 
@@ -149,12 +140,10 @@ function makeLess(dataRowInTable) {
     if (tdn[2].textContent == 1 && tdn[0].textContent == dataRowInTable.id) {
       table.deleteRow(index);
       --dataRowInTable.counter;
-      console.log(`counter less -- delete = ${dataRowInTable.counter}`);
       localStorage.removeItem(`${dataRowInTable.id}`);
       break;
     } else if (tdn[0].textContent == dataRowInTable.id) {
       tdn[2].textContent = --dataRowInTable.counter;
-      console.log(`counter less -- = ${dataRowInTable.counter}`);
       saveData(dataRowInTable);
       break;
     }
@@ -184,15 +173,11 @@ function loadData(object) {
       const element = localStorage.key(i);
       let data = JSON.parse(localStorage.getItem(element));
       if (object.id == data.id) {
-        console.log("i found two id are the same");
         object.counter = --data.counter;
-        console.log(`${object.counter}`);
-        console.log(`${data.counter}`);
         createRow(object);
         countTotal(data);
         break;
       }
-      // }
     }
   } else {
     return;
