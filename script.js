@@ -17,16 +17,16 @@ function loadGoods(objects) {
   let i = 0;
 
   createTable();
-
   while (i < 9) {
-    const element = {
-      id: objects[i].id,
-      title: objects[i].title,
-      description: objects[i].description,
-      price: objects[i].price,
-      image: objects[i].image,
-      counter: 0,
-    };
+    loadData(objects[i]);
+
+    if (!objects[i].counter) {
+      console.log(`counter doesn't exists ${objects[i].counter}`);
+      objects[i].counter = 0;
+    } else {
+      console.log(`Counter exists after upadate in object ${objects[i].id}`);
+      console.log(`and the counter equals ${objects[i].counter}`);
+    }
 
     let title = document.createElement("h3");
     let description = document.createElement("p");
@@ -46,13 +46,13 @@ function loadGoods(objects) {
     cardTop.className = "card-top";
     takeBtn.className = "buy-btn";
 
-    title.textContent = element.title;
-    description.textContent = element.description;
-    price.textContent = `$${element.price}`;
-    image.src = element.image;
+    title.textContent = objects[i].title;
+    description.textContent = objects[i].description;
+    price.textContent = `$${objects[i].price}`;
+    image.src = objects[i].image;
 
     takeBtn.textContent = "Buy";
-    takeBtn.addEventListener("click", handleClick.bind(null, element));
+    takeBtn.addEventListener("click", handleClick.bind(null, objects[i]));
 
     cardTop.appendChild(image);
     cardText.appendChild(title);
@@ -67,22 +67,30 @@ function loadGoods(objects) {
   }
 }
 
-function handleClick(element) {
+function handleClick(dataRowInTable) {
+  console.log(`counter handle start = ${dataRowInTable.counter}`);
   // check if element exsist then counter of this element in table are going to increase or create a new row
   let rows = Array.from(document.querySelectorAll(".row"));
   if (rows.length == 0) {
-    createRow(element);
-    countTotal();
+    createRow(dataRowInTable);
+    countTotal(dataRowInTable);
+    saveData(dataRowInTable);
   } else {
     for (let i = 0; i < rows.length; i++) {
       let td = rows[i].getElementsByTagName("td");
-      if (element.id == td[0].textContent) {
-        td[2].textContent = ++element.counter;
-        countTotal();
+      if (dataRowInTable.id == td[0].textContent) {
+        td[2].textContent = ++dataRowInTable.counter;
+        console.log(`counter hаndle ++ = ${dataRowInTable.counter}`);
+        countTotal(dataRowInTable);
+        saveData(dataRowInTable);
         break;
-      } else if (element.id != td[0].textContent && i == rows.length - 1) {
-        createRow(element);
-        countTotal();
+      } else if (
+        dataRowInTable.id != td[0].textContent &&
+        i == rows.length - 1
+      ) {
+        createRow(dataRowInTable);
+        countTotal(dataRowInTable);
+        saveData(dataRowInTable);
       }
     }
   }
@@ -108,8 +116,11 @@ function createRow(dataRowInTable) {
   td1.textContent = dataRowInTable.id;
   td2.textContent = dataRowInTable.title;
   td3.textContent = ++dataRowInTable.counter;
+  console.log(`counter create row = ${dataRowInTable.counter}`);
   td4.textContent = `${dataRowInTable.price}$`;
-  buttonLess.addEventListener("click", makeLess.bind(null, dataRowInTable));
+  buttonLess.addEventListener("click", () => {
+    makeLess(dataRowInTable);
+  });
   tdLess.appendChild(buttonLess);
   tr.appendChild(td1);
   tr.appendChild(td2);
@@ -129,6 +140,7 @@ function createTable() {
 }
 
 function makeLess(dataRowInTable) {
+  console.log(`counter less = ${dataRowInTable.counter}`);
   const table = document.querySelector(".cart-table");
   const rows = Array.from(document.querySelectorAll(".row"));
 
@@ -137,13 +149,17 @@ function makeLess(dataRowInTable) {
     if (tdn[2].textContent == 1 && tdn[0].textContent == dataRowInTable.id) {
       table.deleteRow(index);
       --dataRowInTable.counter;
+      console.log(`counter less -- delete = ${dataRowInTable.counter}`);
+      localStorage.removeItem(`${dataRowInTable.id}`);
       break;
     } else if (tdn[0].textContent == dataRowInTable.id) {
       tdn[2].textContent = --dataRowInTable.counter;
+      console.log(`counter less -- = ${dataRowInTable.counter}`);
+      saveData(dataRowInTable);
       break;
     }
   }
-  countTotal();
+  countTotal(dataRowInTable);
 }
 
 function countTotal() {
@@ -156,4 +172,29 @@ function countTotal() {
   }
   const totalValue = cart.querySelector(".total-price span");
   totalValue.textContent = `${totalPrice.toFixed(2)}$`;
+}
+
+function saveData(dataRowInTable) {
+  localStorage.setItem(`${dataRowInTable.id}`, JSON.stringify(dataRowInTable));
+}
+
+function loadData(object) {
+  if (localStorage.length > 0) {
+    for (let i = 0; i < localStorage.length; i++) {
+      const element = localStorage.key(i);
+      let data = JSON.parse(localStorage.getItem(element));
+      if (object.id == data.id) {
+        console.log("i found two id are the same");
+        object.counter = --data.counter;
+        console.log(`${object.counter}`);
+        console.log(`${data.counter}`);
+        createRow(object);
+        countTotal(data);
+        break;
+      }
+      // }
+    }
+  } else {
+    return;
+  }
 }
