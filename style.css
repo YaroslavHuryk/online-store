@@ -150,3 +150,39 @@ body {
 .hidden {
     visibility: visible
 }
+
+/* create an account */
+
+.button-account {
+    display: inline-block;
+    background: none;
+    height: 50px;
+    width: 150px;
+    display: flex;
+    align-items: center;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.button-account p {
+    margin: 0px 15px 0px 0px;
+    font-size: 17px;
+    font-weight: 800;
+    color: white;
+}
+
+.button-account img {
+    padding: 2px;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+.button-account:hover p {
+    color: rgb(41, 41, 67);
+}
+
+.button-account:hover img {
+    border-color: rgb(41, 41, 67);
+}

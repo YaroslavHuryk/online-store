@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./create-account.css">
+    <title>Online store create account</title>
+</head>
+<body>
+    <section class="main-container">
+        <h1>Create an account</h1>
+        <form id="account" action="#">
+            <label for="email">Enter your email</label><br>
+            <input name="email" class="input-field" id="email" type="email" required><br>
+            <p class="message-email"></p>
+            <label for="password">Enter your password</label><br>
+            <input class="input-field" id="password" type="password" required><br>
+            <p class="message-password"></p>
+            <label for="confirm">Enter your password again</label><br>
+            <input class="input-field" id="confirm" type="password" required><br>
+            <p class="message-confirm"></p>
+            <input class="create-button" type="submit" value="Create">
+        </form>
+    </section>
+    <script src="./form.js"></script>
+</body>
+</html>
